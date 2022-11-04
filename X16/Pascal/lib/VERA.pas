@@ -23,23 +23,23 @@ type
 
 var
   // X16 I/O Registers. Official Naming
-  VERA_ADDR_LO  : byte absolute $9F20;
-  VERA_ADDR_MID : byte absolute $9F21;
-  VERA_ADDR_HI  : byte absolute $9F22;
-  VERA_DATA1    : byte absolute $9F23;
-  VERA_DATA2    : byte absolute $9F24;
-  VERA_CTRL     : byte absolute $9F25;
-  VERA_IEN      : byte absolute $9F26;  
-  VERA_ISR      : byte absolute $9F27;
-  VERA_IRQLINE   : byte absolute $9F28;
-  VERA_DC_VIDEO  : byte absolute $9F29;
-  VERA_DC_HSCALE : byte absolute $9F2A;
-  VERA_DC_VSCALE : byte absolute $9F2B;
-  VERA_DC_BORDER : byte absolute $9F2C;
-  VERA_DC_HSTART : byte absolute $9F29;
-  VERA_DC_HSTOP  : byte absolute $9F2A;
-  VERA_DC_VSTART : byte absolute $9F2B;
-  VERA_DC_VSTOP  : byte absolute $9F2C;
+  VERA_ADDR_LO       : byte absolute $9F20;
+  VERA_ADDR_MID      : byte absolute $9F21;
+  VERA_ADDR_HI       : byte absolute $9F22;
+  VERA_DATA1         : byte absolute $9F23;
+  VERA_DATA2         : byte absolute $9F24;
+  VERA_CTRL          : byte absolute $9F25;
+  VERA_IEN           : byte absolute $9F26;  
+  VERA_ISR           : byte absolute $9F27;
+  VERA_IRQLINE       : byte absolute $9F28;
+  VERA_DC_VIDEO      : byte absolute $9F29;
+  VERA_DC_HSCALE     : byte absolute $9F2A;
+  VERA_DC_VSCALE     : byte absolute $9F2B;
+  VERA_DC_BORDER     : byte absolute $9F2C;
+  VERA_DC_HSTART     : byte absolute $9F29;
+  VERA_DC_HSTOP      : byte absolute $9F2A;
+  VERA_DC_VSTART     : byte absolute $9F2B;
+  VERA_DC_VSTOP      : byte absolute $9F2C;
   VERA_L0_CONFIF     : byte absolute $9F2D;
   VERA_L0_MAPBASE    : byte absolute $9F2E;
   VERA_L0_TILEBASE   : byte absolute $9F2F;
@@ -54,11 +54,11 @@ var
   VERA_L1_HSCROLL_HI : byte absolute $9F38;
   VERA_L1_VSCROLL_LO : byte absolute $9F39;
   VERA_L1_VSCROLL_HI : byte absolute $9F3A;
-  VERA_AUDIO_CTRL : byte absolute $9F3B;
-  VERA_AUDIO_RATE : byte absolute $9F3C;
-  VERA_AUDIO_DATA : byte absolute $9F3D;
-  VERA_SPI_DATA : byte absolute $9F3E;
-  VERA_SPI_CTRL : byte absolute $9F3F;
+  VERA_AUDIO_CTRL    : byte absolute $9F3B;
+  VERA_AUDIO_RATE    : byte absolute $9F3C;
+  VERA_AUDIO_DATA    : byte absolute $9F3D;
+  VERA_SPI_DATA      : byte absolute $9F3E;
+  VERA_SPI_CTRL      : byte absolute $9F3F;
     
   // My Naming
   vAddrLo       : byte absolute $9F20;
