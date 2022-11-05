@@ -312,7 +312,7 @@ end;
     end 
   end; 
   
-  procedure Locate(x: byte registerX; y: byte registerY);
+  procedure Locate(x: byte registerY; y: byte registerX);
   begin
     asm 
       CLC
