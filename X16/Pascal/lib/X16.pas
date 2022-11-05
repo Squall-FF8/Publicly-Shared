@@ -128,6 +128,10 @@ const
   YM_Reg            = $9F40;
   YM_Data           = $9F41;
 
+  // I2C Devices
+  I2C_DEVICE_SMC    = $42;  // System Management Controller
+  I2C_DEVICE_RTC    = $6F;  // Real Time Clock
+  
   // Emulator Registers
   GIF_ctrl          = $9FB5;
 
