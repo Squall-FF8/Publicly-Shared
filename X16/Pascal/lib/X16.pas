@@ -137,7 +137,12 @@ const
 
   // ROM/RAM Banks
   KERNAL_ROM_BANK   = 0;
+  KEYBOARD_ROM_BANK = 1;
+  CBDOS_ROM_BANK    = 2;
+  GEOS_ROM_BANK     = 3;
   BASIC_ROM_BANK    = 4;
+  MONITOR_ROM_BANK  = 5;
+  CHARSET_ROM_BANK  = 6;
   KERNAL_RAM_BANK   = 0;
 
   // Banked Addresses
@@ -176,6 +181,7 @@ const
   IRQ_VECTOR        = $0314;
   BRK_VECTOR        = $0316;
   NMI_VECTOR        = $0318;
+  FET_VECTOR        = $03AF;
 
   // Routine Vectors
   IOPEN_VECTOR      = $031A;
@@ -254,21 +260,21 @@ implementation
 procedure SetNam(NameLength: byte registerA; NameAddrLo: byte registerX; NameAddrHi: byte registerY);
 begin
   asm 
-	  JSR __SetNam
+    JSR __SetNam
   end 
 end; 
 
 procedure SetLFS(LogicalNumber: byte registerA; DeviceNumber: byte registerX; SecondAddress: byte registerY);
 begin
   asm 
-	  JSR __SetLFS
+    JSR __SetLFS
   end 
 end; 
 
 procedure Load(Oper: byte registerA; AddressLo: byte registerX; AddressHi: byte registerY);
 begin
   asm 
-	  JSR __Load
+    JSR __Load
   end 
 end; 
 
@@ -335,7 +341,7 @@ end;
   Output: A = Byte read.}
   begin
     asm 
-	    JSR __GetIn 
+      JSR __GetIn 
     end 
   end; 
   
@@ -365,7 +371,7 @@ end;
   {Prints a string delimited by NULL}
   begin
     asm 
-	  LDA str.low
+    LDA str.low
     LDY str.high
     JSR $AB1E 
     end 
@@ -374,7 +380,7 @@ end;
   {Returns a pseudo-random byte.}
   begin
     asm 
-	    LDA #0  ;Use internal clcck
+      LDA #0  ;Use internal clcck
       JSR $E09A
       LDA $64 
     end 
@@ -384,7 +390,7 @@ end;
   begin
     asm 
        ;--- Load Y in (H,A)
-	     LDA #0
+       LDA #0
        STA __H
        TYA
        ;--- Shift (H,A) 3 times 
@@ -448,7 +454,7 @@ end;
 procedure ShowMouse;
 begin
   asm 
-	    LDA #1
+      LDA #1
       JSR MOUSE_CONFIG 
   end 
 end;
@@ -456,7 +462,7 @@ end;
 procedure HideMouse;
 begin
   asm 
-	    LDA #0
+      LDA #0
       JSR MOUSE_CONFIG 
   end 
 end;
