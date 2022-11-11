@@ -156,24 +156,6 @@ const
   DEVICE_HOST       = 8;
   DEVICE_DISK       = DEVICE_HOST;
   
-  // Kernel registers, used by kernel functions
-  r0					= $02;
-  r1					= $04;
-  r2					= $06;
-  r3					= $08;
-  r4					= $0A;
-  r5					= $0C;
-  r6					= $0E;
-  r7					= $10;
-  r8					= $12;
-  r9					= $14;
-  r10					= $16;
-  r11					= $18;
-  r12					= $1A;
-  r13					= $1C;
-  r14					= $1E;
-  r15					= $20;
-
   // BASIC Vectors
   BASIC_PANIC       = $C000;
   BASIC_INIT        = $C003;
@@ -201,6 +183,24 @@ const
 var
   RAM_BANK: byte absolute $00;
   ROM_BANK: byte absolute $01;
+
+  // Kernel registers, used by kernel functions
+  r0:  word absolute $02;
+  r1:  word absolute $04;
+  r2:  word absolute $06;
+  r3:  word absolute $08;
+  r4:  word absolute $0A;
+  r5:  word absolute $0C;
+  r6:  word absolute $0E;
+  r7:  word absolute $10;
+  r8:  word absolute $12;
+  r9:  word absolute $14;
+  r10: word absolute $16;
+  r11: word absolute $18;
+  r12: word absolute $1A;
+  r13: word absolute $1C;
+  r14: word absolute $1E;
+  r15: word absolute $20;
 
   
 // Usefull Pascal Warper functions
