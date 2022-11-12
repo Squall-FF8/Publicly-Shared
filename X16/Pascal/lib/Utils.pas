@@ -8,6 +8,8 @@ interface
   // r2: word - Count
   // note: only works for NON-OVERLAPPING memory regions!
   procedure Copy;
+  // note: shhorter and much faster verion. Only for Count <256!
+  procedure Copy(Count: byte registerY);
   
   // r1: word - Destination
   // r2: word - Count
@@ -46,6 +48,21 @@ begin
 end; 
 
 
+procedure Copy(Count: byte registerY);
+begin
+    asm
+          CPY #0
+          BEQ stop
+          DEY
+  loop:   LDA (r0), Y
+          STA (r1), Y
+          DEY
+          BNE loop
+  stop:     	 
+    end; 
+end; 
+  
+
 procedure FillChar(Value: byte registerA);
 begin
     asm 
@@ -72,7 +89,15 @@ end;
 
 procedure FillChar(Dest: word; Count: byte registerY; Value: byte registerA);
 begin
-  
+    asm 
+          CPY #0
+          BEQ stop
+  loop:   DEY
+          STA (r1), Y
+          BNE loop
+  stop:     	 
+    end; 
 end; 
+
 
 end.
