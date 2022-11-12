@@ -9,9 +9,11 @@
 
 {$CLEAR_STATE_RAM} // If we clears, we'll need to define all RAM map
 {$SET_STATE_RAM '0000-9EFF:GPR'} // Memory that we can use
+{$SET_STATE_RAM '0000-0021:SFR'} // zp for Kernel 
+{$SET_STATE_RAM '0080-00FF:SFR'} // zp for Basic
 {$SET_STATE_RAM '0100-01FF:SFR'} // Stack
 {$SET_STATE_RAM '0200-03FF:SFR'} // Kernel, Basic
-{$SET_DATA_ADDR '0022-007F'}  // Some bytes from Zero page. Does it work???
+{$SET_DATA_ADDR '0022-007F'}  // Some bytes from Zero page. 
 
 
 unit X16;
