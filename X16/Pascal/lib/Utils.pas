@@ -8,6 +8,8 @@ interface
   // r2: word - Count
   // note: only works for NON-OVERLAPPING memory regions!
   procedure Copy;
+  // Source      - r0: word 
+  // Destination - r1: word
   // note: shhorter and much faster verion. Only for Count <256!
   procedure Copy(Count: byte registerY);
   
@@ -23,10 +25,10 @@ implementation
 procedure Copy;
 begin
     asm 
+          LDY #0
           LDX r2 + 1
           BEQ next
           
-          LDY #0
   loop1:  LDA (r0), Y
           STA (r1), Y
           INY
