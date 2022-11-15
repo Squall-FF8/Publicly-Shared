@@ -3,6 +3,7 @@
   Produces .prg file with BASIC stub for autostart
   ==============================}
 
+{$PROCESSOR CPU65C02}
 {$ORG $0801}   // Initial address - same as BASIC
 //{$BOOTLOADER C64} // Generate the BASIC code: 10 SYS 2062
 {$BOOTLOADER $0C, $08, $0A, $00, $9E, 'COD_5A', $00, $00, $00}
