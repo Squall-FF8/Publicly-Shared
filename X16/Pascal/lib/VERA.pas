@@ -84,6 +84,10 @@ procedure vSetAddress(High: byte registerX; Low: byte registerY);
 procedure vPoke(Bank: byte; Address: word; Value: byte);  
 procedure vPoke2(Bank: byte; Address: word; Value: byte);  
 
+procedure vCopy(AddrHi: byte registerA; AddrLo: byte registerY; Num: byte registerX);
+procedure vFill256(Color: byte registerA; Num256: byte registerX);
+procedure vFill(Color: byte registerA; Count: byte registerX);
+
 
 implementation  
 
@@ -121,5 +125,42 @@ begin
   vAddress  := Address;
   vData2    := Value;
 end;
+
+
+procedure vCopy(AddrHi: byte registerA; AddrLo: byte registerY; Num: byte registerX);
+  var tmp: word absolute $02;
+begin
+  asm 
+      STA loop + 2
+      STY Loop + 1
+      LDY #0
+loop: LDA $FFFF, Y
+      STA vData1
+      INY
+      DEX
+      BNE loop      
+  end 
+end;
+
+procedure vFill256(Color: byte registerA; Num256: byte registerX);
+begin
+  asm
+      LDY #$00
+loop: STA VERA_DATA1
+      INY
+      BNE loop
+      DEX
+      BNE loop
+  end 
+end; 
+
+procedure vFill(Color: byte registerA; Count: byte registerX);
+begin
+  asm
+loop: STA VERA_DATA1
+      DEX
+      BNE loop
+  end 
+end; 
  
 end.
