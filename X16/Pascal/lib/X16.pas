@@ -241,7 +241,7 @@ type
   //Read byte from default input (for keyboard, read a line from the screen). (If not keyboard, must call OPEN and CHKIN beforehands.)
   procedure CHRIN: char;
   //Write byte to default output. (If not screen, must call OPEN and CHKOUT beforehands.)
-  procedure CHROUT(c: char register);
+  procedure CHROUT(c: char registerA);
   //Read byte from default input. 
   procedure GETIN: byte;
   
@@ -315,7 +315,7 @@ end;
     end
   end;
   
-  procedure CHROUT(c: char register);
+  procedure CHROUT(c: char registerA);
   begin
     asm 
       JSR $FFD2  ;argument already in A register
