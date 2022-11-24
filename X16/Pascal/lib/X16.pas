@@ -244,6 +244,10 @@ type
   procedure CHROUT(c: char registerA);
   //Read byte from default input. 
   procedure GETIN: byte;
+  // Set the software timer
+  procedure SETTIM(Low:byte registerA; Middle: byte registerX; High: byte registerY);
+  // Get the software timer in AXY: Low, Mid, High
+  procedure RDTIM;
   
   //////////// BASIC FUNCTIONS //////////
   //Output a word Number in ASCII Decimal Digits
@@ -307,6 +311,20 @@ end;
     end
   end;
   }
+  procedure SETTIM(Low:byte registerA; Middle: byte registerX; High: byte registerY);
+  begin
+    asm 
+      JSR __SETTIM 
+    end; 
+  end;
+  
+  procedure RDTIM; 
+  begin
+    asm 
+      JSR __RDTIM 
+    end; 
+  end;
+  
   procedure CLRSCR;
   begin
     asm
