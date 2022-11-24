@@ -23,8 +23,7 @@ var
           LDX #8
  loop2:   ASL
           BCC skip
-          LDA crc
-          ADC #$1D
+          EOR #$1D
  skip:    STA crc
           DEX
           BNE loop2
@@ -36,7 +35,7 @@ var
   skip2:  LDA Length
           BNE skip3
           DEC Length +1
-          BEQ finish
+          BMI finish
  skip3:   DEC Length
           BRA loop1
  finish:              
@@ -46,7 +45,8 @@ var
 begin
   Print(@'CALCULATING...'#0);
   SetTim(0,0,0);
-  crc8($E000, $2000);
+  //crc8($E000, $2000);
+  crc8($E000, $1FFF);  // the procedure does Length + 1 loops
   Print_Hex8(crc);
   NewLine;
   //RDTIM;
