@@ -7,10 +7,40 @@ uses X16, Text;
 var
   crc: byte;
 
-  procedure Crc8(Data, Length: word);
+  {procedure Crc8(Data, Length: pointer);
   begin
     crc := 0;
     crc := $a2;
+  end;}
+   
+  procedure Crc8(Data, Length: pointer);
+  begin
+    asm
+          STZ crc
+ loop1:   LDA crc
+          EOR (Data)
+          STA crc
+          LDX #8
+ loop2:   ASL
+          BCC skip
+          LDA crc
+          ADC #$1D
+ skip:    STA crc
+          DEX
+          BNE loop2
+          
+          INC Data
+          BNE skip2
+          INC Data + 1
+ 
+  skip2:  LDA Length
+          BNE skip3
+          DEC Length +1
+          BEQ finish
+ skip3:   DEC Length
+          BRA loop1
+ finish:              
+    end;
   end; 
 
 begin
