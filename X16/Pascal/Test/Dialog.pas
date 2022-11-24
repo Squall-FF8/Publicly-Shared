@@ -162,11 +162,6 @@ var
   w: pointer;
   i: byte;
 begin
-asm
-  LDX #2 
-	JMP (table, X)
-  table: DW  dLineV, dLineH, dSetPos
-end; 
   vControl := 0;  // VERA_DATA1 will be used. DC_SEL= 0
   vSetAddress($11, spr1_Addr.High, spr1_Addr.Low);
   w := @spr1_Attr;
