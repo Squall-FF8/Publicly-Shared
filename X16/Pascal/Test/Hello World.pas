@@ -1,5 +1,5 @@
 program Test;
-uses X16, VERA;
+uses X16;
 
 var
   i: byte;
