@@ -2,7 +2,7 @@ program Test;
 uses X16, Text;
 
 BEGIN
-  Print(@'HELLO WORLD'#0);
+  Print(@#$9A'HELLO '#$99'WORLD'#0);
 
   {$RTS} 
 END.  
