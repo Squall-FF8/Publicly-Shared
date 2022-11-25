@@ -17,8 +17,13 @@ interface
   // r2: word - Count
   procedure FillChar(Value: byte registerA);
   procedure FillChar(Dest: word; Count: byte registerY; Value: byte registerA);
-  
-  
+
+  // Generate pseudo random number by x_abc algo, seed = $00c2 $1137
+  // source: routine from https://codebase64.org/doku.php?id=base:x_abc_random_number_generator_8_16_bit
+  // for 8 bit use A. for 16bit use A B1
+  procedure Random: byte;
+
+
 implementation
 
 
@@ -100,6 +105,25 @@ begin
   stop:     	 
     end; 
 end; 
+
+
+procedure Random: byte;
+begin
+  asm 
+          inc x1+1 
+          clc
+  x1:     lda #$00	;x1
+  c1:     eor #$c2	;c1
+  a1:     eor #$11	;a1
+          sta a1+1
+  b1:     adc #$37	;b1
+          sta b1+1
+          lsr
+          eor a1+1
+          adc c1+1
+          sta c1+1
+  end;        
+end;
 
 
 end.
