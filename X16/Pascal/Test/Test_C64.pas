@@ -1,16 +1,10 @@
-program test;
-  uses Commodore64;
-var
-    i,j,k:word;
+program Hello;
+uses Commodore64;
 begin
-    k:=0;
-    for i:=0 to 2 do
-        for j:=0 to 2 do
-            k := k + 1;
-            k := k + 2;
-            k := k + 3;
-            k := k + 4;
-            k := k + 5;
-        end;
-    end;
+  ChrOUT('H');
+  ChrOUT('E');
+  ChrOUT('L');
+  ChrOUT('L');
+  ChrOUT('O');
+  asm RTS end 
 end.
