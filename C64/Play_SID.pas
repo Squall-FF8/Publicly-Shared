@@ -19,30 +19,34 @@ var
   
   Src, Dst, Count: word ZeroPage;
   
-  procedure Copy;
+  procedure CopyR;
   begin
-    asm 
-          LDY #0
-          LDX Count + 1
+    asm
+          LDX Count+1  ; the last byte must be moved first
+          CLC          ; start at the final pages of FROM and TO
+          TXA
+          ADC Src+1
+          STA Src+1
+          CLC
+          TXA
+          ADC Dst+1
+          STA Dst+1
+          INX          ; allows the use of BNE after the DEX below
+          LDY Count
           BEQ next
-          
-  loop1:  LDA (Src), Y
-          STA (Dst), Y
-          INY
+          DEY          ; move bytes on the last page first
+          BEQ loop2
+ loop1:   LDA (Src),Y
+          STA (Dst),Y
+          DEY
           BNE loop1
-          INC Src + 1
-          INC Dst + 1
+ loop2:   LDA (Src),Y ; handle Y = 0 separately
+          STA (Dst),Y
+ next:    DEY
+          DEC Src+1   ; move the next page (if any)
+          DEC Dst+1
           DEX
           BNE loop1
-          
-  next:   LDX Count
-          BEQ stop
-  loop2:  LDA (Src), Y
-          STA (Dst), Y
-          INY
-          DEX
-          BNE loop2
-  stop:     	 
     end; 
   end;
    
@@ -50,7 +54,7 @@ begin
   Src   := @SID + $7E;
   Dst   := $17FE {@SID + $7C};
   Count := SID.Length - $7E;
-  Copy;
+  CopyR;
   
   CIA_Interrupt := $7F;  // stops IRQs from CIA
   asm 
