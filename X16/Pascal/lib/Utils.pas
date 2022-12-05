@@ -12,6 +12,7 @@ interface
   // Destination - r1: word
   // note: shhorter and much faster verion. Only for Count <256!
   procedure Copy(Count: byte registerY);
+  procedure CopyR; // Copy in Reverse order. Params as Copy
   
   // r1: word - Destination
   // r2: word - Count
@@ -67,6 +68,38 @@ begin
           BNE loop
   stop:     	 
     end; 
+end;
+
+
+procedure CopyR;
+begin
+  asm
+          LDX r2+1    ; the last byte must be moved first
+          CLC         ; start at the final pages of FROM and TO
+          TXA
+          ADC r0+1
+          STA r0+1
+          CLC
+          TXA
+          ADC r1+1
+          STA r1+1
+          INX         ; allows the use of BNE after the DEX below
+          LDY r2
+          BEQ next
+          DEY         ; move bytes on the last page first
+          BEQ loop2
+ loop1:   LDA (r0),Y
+          STA (r1),Y
+          DEY
+          BNE loop1
+ loop2:   LDA (r0),Y  ; handle Y = 0 separately
+          STA (r1),Y
+ next:    DEY
+          DEC r0+1    ; move the next page (if any)
+          DEC r1+1
+          DEX
+          BNE loop1
+  end; 
 end; 
   
 
