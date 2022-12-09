@@ -15,13 +15,17 @@ var
   InterruptMask : byte absolute $D01A;
 
   IRQ: word absolute $314;
-  SID: array of byte = ({$BIN2CSV What_It_Takes.sid});
+  SID: array of byte = ({$BIN2CSV Test.sid});
   
   Src, Dst, Count: word ZeroPage;
   
   procedure CopyR;
   begin
     asm
+          LDA SID + $0A     ; get address of Init
+          STA Dst+1
+          LDA SID + $0B
+          STA Dst
           LDX Count+1  ; the last byte must be moved first
           CLC          ; start at the final pages of FROM and TO
           TXA
@@ -52,7 +56,7 @@ var
    
 begin
   Src   := @SID + $7E;
-  Dst   := $17FE {@SID + $7C};
+  //Dst   := @SID + $7C;
   Count := SID.Length - $7E;
   CopyR;
   
