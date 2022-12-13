@@ -7,12 +7,12 @@ uses X16, Text;
 
   procedure Pass;
   begin
-    Print(@' PASS'#13);
+    Print(@' '#$1E'PASS'#05#13);
   end; 
 
   procedure Fail;
   begin
-    Print(@' FAIL'#13);
+    Print(@' '#$1C'FAIL'#05#13);
   end; 
 
 
@@ -83,15 +83,15 @@ begin
   Print(@'ADDITION WITH A VAR:');
   if pb = $1010 then Pass; else Fail end;  
 
-  //pb := $1345;
-  //pb := pb - $345;
-  //Print(@'SUBSTRACTION WITH A CONST:');
-  //if pb = $1000 then Pass; else Fail end;  
+  pb := $1345;
+  pb := pb - $345;
+  Print(@'SUBSTRACTION WITH A CONST:');
+  if pb = $1000 then Pass; else Fail end;  
 
-  //pb := $1010;
-  //pb := pb - b;
-  //Print(@'SUBSTRACTION WITH A VAR:');
-  //if pb = $1010 then Pass; else Fail end;
+  pb := $1010;
+  pb := pb - b;
+  Print(@'SUBSTRACTION WITH A VAR:');
+  if pb = $1000 then Pass; else Fail end;
   
   pb := $1234; pb1 := $2000;
   Print(@'COMPARE BYTE PTR:');
