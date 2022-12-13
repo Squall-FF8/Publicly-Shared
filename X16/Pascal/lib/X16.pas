@@ -336,7 +336,7 @@ end;
   procedure CHROUT(c: char registerA);
   begin
     asm 
-      JSR $FFD2  ;argument already in A register
+      JSR __ChrOut  ;argument already in A register
     end 
   end; 
   
