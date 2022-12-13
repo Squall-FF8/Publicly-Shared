@@ -24,6 +24,9 @@ var
   p, q: pointer;
   
 begin
+  ScreenMode(Text80x30);
+  CharMode(ASCII_mode);
+  
   b := $10;
   w := $1234;
 
@@ -102,7 +105,7 @@ begin
   if pw <= pw1 then Pass; else Fail end;
 
   p := $1234; q := $2000;
-  Print(@'COMPARE WORD PTR:');
+  Print(@'COMPARE GENERAL PTR:');
   if p <= q then Pass; else Fail end;
     
   pb := $FF0;
