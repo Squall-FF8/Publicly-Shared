@@ -53,6 +53,8 @@ procedure Print(Str: word);
 procedure Print_Hex8(Value: byte registerA);
   // Print a 24-bit in hex format
 procedure Print_Hex24(Low:byte registerA; Middle: byte registerX; High: byte registerY);
+  // Print a 32-bit pointed by A/Y in hex
+procedure Print_Hex32(AddressHi:byte registerA; AddressLo: byte registerY);
   // Read and prints the 24bit timer in hex
 procedure Print_Timer;
   // Print a byte in decimal format
@@ -146,6 +148,19 @@ begin
   end; 
 end; 
 
+procedure Print_Hex32(AddressHi:byte registerA; AddressLo: byte registerY);
+  var temp: byte absolute $02;
+begin
+  asm
+          STY temp
+          STA temp + 1
+          LDY #3
+  loop:   LDA (temp), Y
+          JSR Print_Hex8
+          DEY
+          BPL loop
+  end; 
+end; 
 
 procedure Print_Timer;
 begin
