@@ -8,7 +8,10 @@ const
   iAFLOW  = $08;
   
   // VRAM Addresses
-  VRAM_PETSCII = $F800;  // Bank 0
+  VRAM_BITMAP  = $0000;  // Bank 0
+  VRAM_TEXT    = $B000;  // Bank 1 
+  VRAM_PETSCII = $F000;  // Bank 1
+  
   VRAM_PSG     = $F9C0;  // Bank 1
   VRAM_PALETTE = $FA00;  // Bank 1
   VRAM_SPRITES = $FC00;  // Bank 1

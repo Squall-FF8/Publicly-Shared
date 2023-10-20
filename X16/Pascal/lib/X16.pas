@@ -167,6 +167,7 @@ const
   IRQ_VECTOR        = $0314;
   BRK_VECTOR        = $0316;
   NMI_VECTOR        = $0318;
+  KBD_VECTOR        = $032E;
   FET_VECTOR        = $03AF;
 
   // Routine Vectors
@@ -204,9 +205,33 @@ var
   r13: word absolute $1C;
   r14: word absolute $1E;
   r15: word absolute $20;
+  
+  // VIA1 registers
+  VIA1_PB   : byte absolute $9F00;
+  VIA1_PA   : byte absolute $9F01;
+  VIA1_DDRB : byte absolute $9F02;
+  VIA1_DDRA : byte absolute $9F03;
+  VIA1_T1CL : byte absolute $9F04;
+  VIA1_T1CH : byte absolute $9F05;
+  VIA1_T1LL : byte absolute $9F06;
+  VIA1_T1LH : byte absolute $9F07;
+  VIA1_T2CL : byte absolute $9F08;
+  VIA1_T2CH : byte absolute $9F09;
+  VIA1_SR   : byte absolute $9F0A;
+  VIA1_ACR  : byte absolute $9F0B;
+  VIA1_PCR  : byte absolute $9F0C;
+  VIA1_IFR  : byte absolute $9F0D;
+  VIA1_IER  : byte absolute $9F0E;
+  VIA1_PA2  : byte absolute $9F0F;
 
   
 // Usefull Pascal Warper functions
+  // NO header
+procedure LoadFileInRAM(FileName: word; NameLen: byte; Address: word);
+procedure LoadFileInVRAM(FileName: word; NameLen: byte; Bank: byte; Address: word);
+procedure LoadFileInBRAM(FileName: word; NameLen: byte; Bank: byte);
+
+  // With header - 2 byte 
 procedure LoadFile(FileName: word; NameLen: byte; Address: word);          // Loads in RAM
 procedure vLoad(FileName: word; NameLen: byte; Bank: byte; Address: word); // Loads in VRAM
 procedure bLoad(FileName: word; NameLen: byte; Bank: byte);                // Loads in Banked RAM
@@ -448,6 +473,29 @@ end;
     end
   end; 
   *)
+
+procedure LoadFileInRAM(FileName: word; NameLen: byte; Address: word);
+begin
+  SetNam(NameLen, FileName.low, FileName.high);
+  SetLFS(1, 8, 2);
+  Load(0, Address.low, Address.high);
+end;
+
+procedure LoadFileInVRAM(FileName: word; NameLen: byte; Bank: byte; Address: word);
+begin
+  SetNam(NameLen, FileName.low, FileName.high);
+  SetLFS(1, 8, 2);  // Use 1 for r34!!!
+  Load(Bank + 2, Address.low, Address.high);
+end;
+
+procedure LoadFileInBRAM(FileName: word; NameLen: byte; Bank: byte);
+begin
+  RAM_BANK := Bank;  // flip to desired Bank
+  SetNam(NameLen, FileName.low, FileName.high);
+  SetLFS(1, 8, 2);  // Use 1 for r34!!!
+  Load(0, RAM_WIN.low, RAM_WIN.high);
+end;
+
   
 procedure LoadFile(FileName: word; NameLen: byte; Address: word);
 begin
