@@ -33,7 +33,59 @@ var
   EMUIO_VERSION1      : byte absolute $9FBE;  // If we run on emulator, returns $31 ("1")
   EMUIO_VERSION2      : byte absolute $9FBF;  // If we run on emulator, returns $36 ("6")
 
+
+  // Returns CPU Clock Counter in 4 bytes (dword) pointed by Ptr
+  procedure EMU_GetCounter(Ptr: pointer);
+
+  procedure IsEmulator: byte;
+  
+  procedure EMU_Print(Str: pointer);
+  
+  
 implementation
+
+
+procedure IsEmulator: byte;
+begin
+  asm 
+	        LDA #$00    ; return false
+          LDX EMUIO_VERSION1
+          CPX #$31
+          BNE finish
+          LDX EMUIO_VERSION2
+          CPX #$36
+          BNE finish
+          LDA #$FF    ; return true
+ finish:
+  end; 
+end; 
+  
+procedure EMU_GetCounter(Ptr: pointer);
+begin
+  asm 
+          LDY #0
+ loop:    LDA EMUIO_CPU_COUNTER1, Y
+          STA (Ptr), Y
+          INY
+          CPY #4
+          BNE loop
+ finish: 
+  end 
+end; 
+
+procedure EMU_Print(Str: pointer);
+begin
+  asm 
+          LDY #0
+ loop:    LDA (Str), Y
+          BEQ finish
+          STA EMUIO_OUTPUT_CHAR
+          INY
+          BRA loop
+ finish: 
+   end 
+end;
+
 
 
 end. 
