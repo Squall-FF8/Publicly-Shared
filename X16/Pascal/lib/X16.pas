@@ -267,6 +267,7 @@ type
   procedure CHRIN: char;
   //Write byte to default output. (If not screen, must call OPEN and CHKOUT beforehands.)
   procedure CHROUT(c: char registerA);
+  procedure BSOUT(c: byte registerA);
   //Read byte from default input. 
   procedure GETIN: byte;
   // Set the software timer
@@ -359,6 +360,13 @@ end;
   end;
   
   procedure CHROUT(c: char registerA);
+  begin
+    asm 
+      JSR __ChrOut  ;argument already in A register
+    end 
+  end; 
+  
+  procedure BSOUT(c: byte registerA);
   begin
     asm 
       JSR __ChrOut  ;argument already in A register
