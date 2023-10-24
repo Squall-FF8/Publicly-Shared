@@ -7,6 +7,11 @@ const
   iSPRCOL = $04;
   iAFLOW  = $08;
   
+  // DCSEL preclaculate constant
+  DCSEL_VIDEO    =  0 << 1; // Video, H/V Scale, Border
+  DCSEL_CLIPPING =  1 << 1; // H/V Start/Stop
+  DCSEL_VERSION  = 63 << 1; // VERA version
+  
   // VRAM Addresses
   VRAM_BITMAP  = $0000;  // Bank 0
   VRAM_TEXT    = $B000;  // Bank 1 
@@ -35,14 +40,25 @@ var
   VERA_IEN           : byte absolute $9F26;  
   VERA_ISR           : byte absolute $9F27;
   VERA_IRQLINE       : byte absolute $9F28;
+
+    // DCSEL = 0
   VERA_DC_VIDEO      : byte absolute $9F29;
   VERA_DC_HSCALE     : byte absolute $9F2A;
   VERA_DC_VSCALE     : byte absolute $9F2B;
   VERA_DC_BORDER     : byte absolute $9F2C;
+
+    // DCSEL = 1
   VERA_DC_HSTART     : byte absolute $9F29;
   VERA_DC_HSTOP      : byte absolute $9F2A;
   VERA_DC_VSTART     : byte absolute $9F2B;
   VERA_DC_VSTOP      : byte absolute $9F2C;
+  
+    // DCSEL = 63
+  VERA_DC_VER0       : byte absolute $9F29;  // The ASCII character "V"
+  VERA_DC_VER1       : byte absolute $9F2A;  // Major release
+  VERA_DC_VER2       : byte absolute $9F2B;  // Minor release
+  VERA_DC_VER3       : byte absolute $9F2C;  // Minor build number
+ 
   VERA_L0_CONFIF     : byte absolute $9F2D;
   VERA_L0_MAPBASE    : byte absolute $9F2E;
   VERA_L0_TILEBASE   : byte absolute $9F2F;
@@ -90,6 +106,9 @@ procedure vPoke2(Bank: byte; Address: word; Value: byte);
 procedure vCopy(AddrHi: byte registerA; AddrLo: byte registerY; Num: byte registerX);
 procedure vFill256(Color: byte registerA; Num256: byte registerX);
 procedure vFill(Color: byte registerA; Count: byte registerX);
+
+  // Str - pointer to a string (or memory) with 3+ bytes 
+procedure vGetVersion(Str: pointer);
 
 
 implementation  
@@ -164,6 +183,21 @@ loop: STA VERA_DATA1
       DEX
       BNE loop
   end 
-end; 
+end;
+
+procedure vGetVersion(Str: pointer);
+begin
+  asm
+          LDA #DCSEL_VERSION
+          STA VERA_CTRL
+          LDY #2
+ loop:    LDA VERA_DC_VER1, Y
+          ORA #$30
+          STA (Str), Y
+          DEY
+          BPL loop
+  end 
+end;
+ 
  
 end.
